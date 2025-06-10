@@ -1,0 +1,54 @@
+# fatorial.txt
+# Calcula Fatorial(A). Resultado final em B.
+# Usa B, C, D, E como auxiliares.
+# Iniciar com valor em A. B,C,D,E devem ser 0.
+
+# Passo 1: Casos base. Se A=0 ou A=1, Fatorial é 1.
+1: ZER A 100 2     # Se A=0, pule para a rotina que faz B=1.
+2: SUB A 3         # Teste para A=1
+3: ZER A 100 4     # Se A era 1, agora é 0. Pule para B=1.
+4: ADD A 5         # Se A > 1, restaure A e continue.
+
+# Passo 2: Inicialização
+5: ADD B 10        # Inicializa B (resultado) com 1.
+
+# Passo 3: Loop principal do Fatorial.
+# O loop continuará enquanto A > 1.
+10: SUB A 11        # Decrementa A para testar se era 1.
+11: ZER A 99 12     # Se A era 1, agora é 0. Fim do cálculo.
+12: ADD A 10        # Restaura A. Agora sabemos que A > 1.
+
+# Passo 4: Multiplicação B := B * A
+# Preserva A. Usa C, D, E como auxiliares.
+# C=B_orig, D=A_copia, E=aux_soma, B=acumulador
+
+# Move B para C (B se torna 0, pronto para acumular o produto)
+13: ZER B 20 14
+14: SUB B 15
+15: ADD C 13
+
+# Move A para D (D será o contador da multiplicação)
+20: ZER A 23 21
+21: SUB A 22
+22: ADD D 20
+23: ADD A 20      # Restaura A após a cópia para D.
+
+# Loop de Multiplicação: B = B + C (D vezes)
+30: ZER D 50 31   # Se D=0, a multiplicação B*A terminou. Pule para o próximo passo.
+31: SUB D 32
+# Adiciona C em B, usando E como auxiliar para preservar C.
+32: ZER C 35 33   # Move C para E
+33: SUB C 34
+34: ADD E 32
+35: ZER E 30 36   # Loop de adição: adiciona E em B e restaura C
+36: SUB E 37
+37: ADD B 38
+38: ADD C 35
+
+# Passo 5: Fim da multiplicação, decrementar A e repetir.
+50: ZER C 52 51   # Zera o auxiliar C
+51: SUB C 50
+52: SUB A 10      # Decrementa A e volta para o início do loop do fatorial.
+
+# Rotina para definir B=1 para os casos base (A=0 ou A=1)
+100: ADD B 99      # Faz B=1 e encerra o programa.
